@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drip-Rate Assistant | Clinical Support Tool</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <i data-lucide="droplets" class="app-icon"></i>
+                <div class="app-title-group">
+                    <h1>Drip-Rate Assistant</h1>
+                    <span class="app-subtitle">Burn Resuscitation CDS</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle theme">
+                    <i data-lucide="moon" class="theme-icon-moon"></i>
+                    <i data-lucide="sun" class="theme-icon-sun hidden"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard-grid">
+            <!-- TBSA Calculator Panel -->
+            <section class="panel" id="tbsa-panel">
+                <header class="panel-header">
+                    <h2><i data-lucide="activity"></i> TBSA Calculator</h2>
+                    <span class="badge info">Rule of Nines</span>
+                </header>
+                <div class="panel-body">
+                    <div id="body-map-container" class="body-map-container">
+                        <!-- Body Map SVG will be injected or placed here -->
+                        <div class="placeholder-box">Body Map Placeholder</div>
+                    </div>
+                    <div class="tbsa-result">
+                        <label>Total Body Surface Area Burned:</label>
+                        <div class="tbsa-value">
+                            <input type="number" id="tbsa-input" value="0" min="0" max="100" step="0.5">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Parkland Formula Panel -->
+            <section class="panel" id="parkland-panel">
+                <header class="panel-header">
+                    <h2><i data-lucide="calculator"></i> Parkland Formula</h2>
+                </header>
+                <div class="panel-body">
+                    <form id="parkland-form" class="form-grid">
+                        <div class="form-group">
+                            <label for="patient-weight">Weight (kg)</label>
+                            <input type="number" id="patient-weight" min="1" step="0.1" placeholder="e.g. 70">
+                        </div>
+                        <div class="form-group">
+                            <label for="time-since-burn">Time Since Burn (hrs)</label>
+                            <input type="number" id="time-since-burn" min="0" max="24" step="0.5" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="drop-factor">IV Drop Factor (gtts/ml)</label>
+                            <select id="drop-factor">
+                                <option value="10">10 (Macro)</option>
+                                <option value="15" selected>15 (Macro - Standard)</option>
+                                <option value="20">20 (Macro)</option>
+                                <option value="60">60 (Micro)</option>
+                            </select>
+                        </div>
+                    </form>
+                    
+                    <div class="results-grid mt-4">
+                        <div class="result-card primary">
+                            <span class="label">Total 24h Fluid</span>
+                            <span class="value" id="total-fluid-output">0 <small>ml</small></span>
+                        </div>
+                        <div class="result-card">
+                            <span class="label">First 8 Hours</span>
+                            <span class="value" id="first-8h-fluid">0 <small>ml</small></span>
+                        </div>
+                        <div class="result-card">
+                            <span class="label">Next 16 Hours</span>
+                            <span class="value" id="next-16h-fluid">0 <small>ml</small></span>
+                        </div>
+                        <div class="result-card highlight">
+                            <span class="label">Current Drip Rate</span>
+                            <span class="value" id="drip-rate-output">0 <small>gtts/min</small></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Tracker Panel -->
+            <section class="panel" id="tracker-panel">
+                <header class="panel-header">
+                    <h2><i data-lucide="clock"></i> 8-Hour Resuscitation Tracker</h2>
+                </header>
+                <div class="panel-body">
+                     <div class="progress-container">
+                        <div class="progress-labels">
+                            <span>Fluid Delivered</span>
+                            <span id="tracker-status-text">0ml / 0ml Expected</span>
+                        </div>
+                        <div class="progress-bar-wrapper">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill expected" id="expected-progress" style="width: 0%;"></div>
+                                <div class="progress-bar-fill actual" id="actual-progress" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        <div class="tracker-inputs mt-4">
+                            <div class="form-group">
+                                <label for="actual-fluid">Actual Fluid Delivered (ml)</label>
+                                <div class="input-with-button">
+                                    <input type="number" id="actual-fluid" min="0" value="0" step="50">
+                                    <button class="btn btn-primary" id="update-fluid-btn">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </section>
+
+            <!-- Urine Output Monitor Panel -->
+            <section class="panel" id="urine-panel">
+                <header class="panel-header">
+                    <h2><i data-lucide="beaker"></i> Urine Output Monitor</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group flex-row">
+                        <div class="input-box flex-1">
+                            <label for="hourly-urine">Past Hour UO (ml)</label>
+                            <input type="number" id="hourly-urine" min="0" placeholder="e.g. 50">
+                        </div>
+                        <div class="result-box flex-1 flex-center">
+                            <div class="uo-result">
+                                <span class="value" id="uo-rate-output">0.0</span>
+                                <span class="unit">ml/kg/hr</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="uo-warning" class="alert alert-warning hidden mt-3">
+                        <i data-lucide="alert-triangle"></i>
+                        <p><strong>Warning:</strong> Urine output below 0.5 ml/kg/hr. Possible burn shock. Consider increasing fluid rate by 20% and consult senior physician.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="safety-notice">
+                <i data-lucide="shield-alert"></i>
+                <p><strong>Clinical Decision Support Only:</strong> This tool does not replace professional medical judgment. Over-resuscitation can lead to clinical complications (fluid creep).</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/burn-calculator.js"></script>
+    <script src="js/parkland-calculator.js"></script>
+    <script src="js/tracker.js"></script>
+</body>
+</html>
