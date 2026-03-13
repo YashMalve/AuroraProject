@@ -603,3 +603,97 @@ select:focus {
     font-weight: 600;
     color: var(--text-secondary);
 }
+
+/* Authentication & Pre-Calculator Pages */
+.auth-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.auth-container:has(.auth-card.wide) {
+    max-width: 600px;
+}
+
+.auth-header {
+    margin-bottom: 0;
+}
+
+.auth-main {
+    flex: 1;
+}
+
+.auth-card {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.single-col {
+    grid-template-columns: 1fr;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+.ml-2 {
+    margin-left: 0.5rem;
+}
+
+.mr-3 {
+    margin-right: 0.75rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.text-primary {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.text-primary:hover {
+    text-decoration: underline;
+}
+
+.text-danger {
+    color: var(--danger);
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+.inline-icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1rem;
+    height: 1rem;
+}

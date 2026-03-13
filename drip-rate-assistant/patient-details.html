@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details | Drip-Rate Assistant</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <!-- Auth Header -->
+        <header class="app-header auth-header">
+            <div class="header-left">
+                <i data-lucide="droplets" class="app-icon"></i>
+                <div class="app-title-group">
+                    <h1>Drip-Rate Assistant</h1>
+                    <span class="app-subtitle">Burn Resuscitation CDS</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info mr-3 text-sm font-medium">
+                    <i data-lucide="user-check" class="inline-icon mr-1"></i> Logged in as Dr. Smith
+                </div>
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle theme">
+                    <i data-lucide="moon" class="theme-icon-moon"></i>
+                    <i data-lucide="sun" class="theme-icon-sun hidden"></i>
+                </button>
+                <a href="login.html" class="icon-btn ml-2 text-danger" title="Logout">
+                    <i data-lucide="log-out"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Patient Detail Card -->
+        <main class="auth-main">
+            <section class="panel auth-card wide" id="patient-panel">
+                <header class="panel-header">
+                    <h2><i data-lucide="clipboard-list"></i> Enter Patient Details</h2>
+                </header>
+                <div class="panel-body">
+                    <form id="patient-form" class="form-grid">
+                        <div class="form-group">
+                            <label for="patient-id">Medical Record Number (MRN)</label>
+                            <input type="text" id="patient-id" placeholder="e.g. MRN-123456" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="patient-name">Patient Name (Optional)</label>
+                            <input type="text" id="patient-name" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="patient-age">Age (years)</label>
+                            <input type="number" id="patient-age" min="0" placeholder="e.g. 35" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="patient-gender">Gender</label>
+                            <select id="patient-gender">
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="patient-weight-init">Weight (kg)</label>
+                            <input type="number" id="patient-weight-init" min="1" step="0.1" placeholder="e.g. 70" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time-of-burn">Estimated Time of Burn</label>
+                            <input type="datetime-local" id="time-of-burn" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="patient-notes">Initial Clinical Notes (Allergies, Comorbidities)</label>
+                            <textarea id="patient-notes" rows="3" placeholder="Enter brief medical history..."></textarea>
+                        </div>
+                        
+                        <div class="form-group full-width mt-4">
+                            <button type="submit" class="btn btn-primary w-full" id="continue-btn">
+                                Proceed to Resuscitation Calculator <i data-lucide="arrow-right" class="ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/patient.js"></script>
+</body>
+</html>
